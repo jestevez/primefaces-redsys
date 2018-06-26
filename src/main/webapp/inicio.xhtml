@@ -1,0 +1,124 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui"
+                template="/WEB-INF/template.xhtml">
+
+    <ui:define name="content">
+
+        <p:panel>
+            <div class="ui-g ui-fluid">
+                <div class="ui-g-12 ui-md-12 ui-lg-6">
+                </div>
+                <div class="ui-g-12 ui-md-12 ui-lg-6">
+
+
+                </div>
+            </div>
+            <h:form>
+                <p:wizard id="redsysWidzard" step="#{inicioView.currentStep}"
+                          widgetVar="redsysWidzard"
+                          nextLabel="Siguiente" backLabel="Anterior" flowListener="#{inicioView.onFlowProcess}">
+
+                    <p:tab id="order" title="1" titletip="Datos de la orden">
+                        <p:panel header="Datos personales" styleClass="no-border">
+                            <h:panelGrid columns="3" columnClasses="label, value">
+                                <p:outputLabel value="Monto" for="amount" />    
+                                <p:inputNumber id="amount" value="#{inicioView.order.amount}" 
+                                               required="true"  requiredMessage="Este campo es obligatorio"
+                                               decimalPlaces="2">
+                                </p:inputNumber>
+                                <p:message for="amount" />
+
+                                <p:outputLabel value="Descripcion" for="description" />
+                                <p:inputText id="description" 
+                                             required="true"  disabled="true"
+                                             maxlength="30"
+                                             requiredMessage="Este campo es obligatorio"
+                                             value="#{inicioView.order.description}" >
+                                    <p:autoUpdate /> 
+                                </p:inputText>
+                                <p:message for="description" />
+                            </h:panelGrid>
+                        </p:panel>
+                    </p:tab>
+
+                    <p:tab id="confirm" title="2" titletip="Confirmar">
+
+                        <p:panel header="Confirmar" styleClass="no-border">
+                            <h3>Pedido</h3>
+                            <div class="ui-g ui-fluid">
+                                <div class="ui-g-12 ui-md-6 ui-lg-6">
+                                    <p:outputLabel value="Amount"/>
+                                </div>
+                                <div class="ui-g-12 ui-md-6 ui-lg-6">
+                                    <h:outputText value="#{inicioView.order.amount}"/>
+                                </div>
+
+                                <div class="ui-g-12 ui-md-6 ui-lg-6">
+                                    <p:outputLabel value="Description"/>
+                                </div>
+                                <div class="ui-g-12 ui-md-6 ui-lg-6">
+                                    <h:outputText value="#{inicioView.order.description}"/>
+                                </div>
+                            </div>
+
+                            <f:facet name="footer">
+
+                                <p:commandButton value="Confirmar pedido" id="submitButton"
+                                                 actionListener="#{inicioView.confirm}"
+                                                 process="@this" styleClass="btn-warning"
+                                                 widgetVar="confirmarWidgetVar"
+                                                 onclick="PF('confirmarWidgetVar').disable()" 
+                                                 oncomplete="PF('confirmarWidgetVar').enable(); PF('confirmDialog').show()" 
+                                                 update="@(div[id$=confirmarDial])"/>
+
+                            </f:facet>
+                        </p:panel>
+                    </p:tab>
+
+                </p:wizard>
+
+                <p:growl globalOnly="true" showDetail="false" life="3000" widgetVar="growlWV">
+                    <p:autoUpdate /> 
+                </p:growl>
+
+                <p:messages showDetail="false" globalOnly="true">
+                    <p:autoUpdate /> 
+                </p:messages>
+            </h:form>
+
+
+            <p:dialog id="confirmarDial" header="Pedido #{inicioView.order.number}"
+                      responsive="true" styleClass="no-border"
+                      widgetVar="confirmDialog" closable="false"  modal="true"
+                      width="340" height="200" resizable="false" draggable="false">
+                <p:growl globalOnly="true"/>
+                Monto: <h:outputText value="#{inicioView.order.amount}"/>
+
+
+                <p:importConstants type="com.example.redsys.web.Constants" var="RedSysConstants" />
+
+                <form method="POST" action="#{RedSysConstants.REDSYS_URL}">
+
+                    <input name="#{RedSysConstants.DS_SIGNATUREVERSION}" value="#{inicioView.signatureVersion}" type="hidden"/>
+                    <input name="#{RedSysConstants.DS_MERCHANTPARAMETERS}" value="#{inicioView.merchantParamenters}" type="hidden"/>
+                    <input name="#{RedSysConstants.DS_SIGNATURE}" value="#{inicioView.signature}" type="hidden"/>
+                    <input name="submit" value="Pagar" type="submit"  />
+                </form>
+                <p:button value="Cerrar" 
+                          onclick="PF('confirmDialog').hide();return false"/>
+
+            </p:dialog>
+
+
+
+
+
+        </p:panel>
+
+
+    </ui:define>
+
+</ui:composition>

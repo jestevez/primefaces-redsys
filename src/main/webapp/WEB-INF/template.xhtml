@@ -1,0 +1,75 @@
+<!DOCTYPE html [
+    <!ENTITY nbsp "&#160;">
+    <!ENTITY bull "&#8226;">
+    <!ENTITY copy "&#169;">
+    <!ENTITY middot "&#183;">
+    <!ENTITY amp "&#38;">
+    ]> <!-- https://www.w3.org/TR/html4/sgml/entities.html -->
+    <html xmlns="http://www.w3.org/1999/xhtml"
+          xmlns:h="http://java.sun.com/jsf/html"
+          xmlns:f="http://java.sun.com/jsf/core"
+          xmlns:ui="http://java.sun.com/jsf/facelets"
+          xmlns:p="http://primefaces.org/ui">
+        <h:head>
+            <f:facet name="first">
+                <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />                
+            </f:facet>
+            <f:facet name="last">
+                <title><ui:insert name="headtitle">Pruebas</ui:insert></title>
+            </f:facet>
+            <ui:insert name="head" />
+        </h:head>
+
+        <h:body>
+
+
+
+            <ui:insert name="breadcrumb">
+                <ol class="breadcrumb">
+                    <li><a href="#"><i class="fa fa-star"></i> Favoritos</a></li>
+                    <li class="active">Plantilla</li>
+                </ol>
+            </ui:insert>
+            <ui:insert name="title">
+                <h1>
+                    Titulo
+                    <small>Sub Titulo</small>
+                </h1>
+            </ui:insert>
+
+            <ui:insert name="content" /> 
+
+
+            <div>                
+                <ui:insert name="status">
+                    <p:ajaxStatus>
+                        <f:facet name="start">
+                            <p:graphicImage style=" width: 80px; position: fixed; top: 0px; right: 1px; /*margin: auto;*/ z-index: 1001;" name="images/loader.gif" />
+                        </f:facet>
+                        <f:facet name="complete">
+                            <h:outputText value="" />
+                        </f:facet>
+                    </p:ajaxStatus>
+                </ui:insert>
+            </div>
+
+            <script type="text/javascript">
+                function start() {
+                    PF('statusDialog').show();
+                }
+
+                function stop() {
+                    PF('statusDialog').hide();
+                }
+            </script>
+            <p:dialog modal="true" widgetVar="statusDialog" header="Espere por favor.." draggable="false" closable="false" resizable="false">
+                <center>
+                    <p:graphicImage name="images/loader.gif" />
+                </center>
+            </p:dialog>
+        </h:body>
+
+
+
+
+    </html>
