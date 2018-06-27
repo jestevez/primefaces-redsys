@@ -2,6 +2,7 @@ package com.example.redsys.web;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.util.Date;
 import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
@@ -32,10 +33,10 @@ public class InicioView implements Serializable {
             LOG.info("{}.init", this.getClass().getSimpleName());
             currentStep = "order";
             order = new Order();
-            order.setAmount(300);
-            order.setDescription("Poliza de Seguro");
-            order.setId("1");
-
+            order.setAmount(1);
+            order.setDescription("Producto dummy");
+            order.setDate(new Date());
+            order.setStatus("pending");
         } catch (Exception e) {
             LOG.error("Clase {} Exception {} ", this.getClass().getSimpleName(), e);
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "ERROR", "ERROR"));
@@ -62,54 +63,35 @@ public class InicioView implements Serializable {
             LOG.info("amountStr  {} ", amountStr);
 
             String compraEncriptada = order.getNumber();
-            String urlConfirmacion = "/";
-
-            // Usamos el mismo endpont solo cambiando el parametro result = OK|KO
-            // FIXME Cambioar el URL
-            /*
-            // Example: http://myhost:8080/people?lastname=Fox&age=30
-
-             String uri = request.getScheme() + "://" +   // "http" + "://
-             request.getServerName() +       // "myhost"
-             ":" +                           // ":"
-             request.getServerPort() +       // "8080"
-             request.getRequestURI() +       // "/people"
-             "?" +                           // "?"
-             request.getQueryString();       // "lastname=Fox&age=30"
             
-             */
             FacesContext facesContext = FacesContext.getCurrentInstance();
             HttpServletRequest request = (HttpServletRequest) facesContext.getExternalContext().getRequest();
-            // String uri = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort() + request.getContextPath();
-            // uri = uri + "/redsysResponse";
-            String uri = "http://www.joseluisestevez.com/redsys.php";
-            String urlPagoOk = uri + "?" + Constants.VAR_RESULT + "=" + Constants.OK;
-            String urlPagoKo = uri + "?" + Constants.VAR_RESULT + "=" + Constants.KO;
+            String uri = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort() + request.getContextPath();
 
-            apiMacSha256.setParameter(Constants.DS_MERCHANT_AMOUNT, amountStr);
-            apiMacSha256.setParameter(Constants.DS_MERCHANT_ORDER, order.getNumber());
-            apiMacSha256.setParameter(Constants.DS_MERCHANT_MERCHANTCODE, Constants.REDSYS_MERCHANTCODE);
-            apiMacSha256.setParameter(Constants.DS_MERCHANT_CURRENCY, Constants.REDSYS_CURRENCY);
-            apiMacSha256.setParameter(Constants.DS_MERCHANT_TRANSACTIONTYPE, Constants.REDSYS_TRANSACTIONTYPE);
-            apiMacSha256.setParameter(Constants.DS_MERCHANT_TERMINAL, Constants.REDSYS_TERMINAL);
-            apiMacSha256.setParameter(Constants.DS_MERCHANT_MERCHANTURL, urlConfirmacion);
-            apiMacSha256.setParameter(Constants.DS_MERCHANT_URLOK, urlPagoOk);
-            apiMacSha256.setParameter(Constants.DS_MERCHANT_URLKO, urlPagoKo);
+            String urlPagoOk = uri + "/order_details.xhtml?result=OK&order=" + compraEncriptada;
+            String urlPagoKo = uri + "/order_details.xhtml?result=KO&order=" + compraEncriptada;
+            String urlConfirmacion = uri + "/redsysResponse";
 
-            signatureVersion = Constants.REDSYS_SIGNATURE_VERSION;
+            apiMacSha256.setParameter(RedSysConstants.DS_MERCHANT_AMOUNT, amountStr);
+            apiMacSha256.setParameter(RedSysConstants.DS_MERCHANT_ORDER, order.getNumber());
+            apiMacSha256.setParameter(RedSysConstants.DS_MERCHANT_MERCHANTCODE, RedSysConstants.REDSYS_MERCHANTCODE);
+            apiMacSha256.setParameter(RedSysConstants.DS_MERCHANT_CURRENCY, RedSysConstants.REDSYS_CURRENCY);
+            apiMacSha256.setParameter(RedSysConstants.DS_MERCHANT_TRANSACTIONTYPE, RedSysConstants.REDSYS_TRANSACTIONTYPE);
+            apiMacSha256.setParameter(RedSysConstants.DS_MERCHANT_TERMINAL, RedSysConstants.REDSYS_TERMINAL);
+            apiMacSha256.setParameter(RedSysConstants.DS_MERCHANT_MERCHANTURL, urlConfirmacion);
+            apiMacSha256.setParameter(RedSysConstants.DS_MERCHANT_URLOK, urlPagoOk);
+            apiMacSha256.setParameter(RedSysConstants.DS_MERCHANT_URLKO, urlPagoKo);
+
+            signatureVersion = RedSysConstants.REDSYS_SIGNATURE_VERSION;
             merchantParamenters = apiMacSha256.createMerchantParameters();
-            signature = apiMacSha256.createMerchantSignature(Constants.REDSYS_SECRETKEY);
+            signature = apiMacSha256.createMerchantSignature(RedSysConstants.REDSYS_SECRETKEY);
 
             order.setSignature(signature);
             order.setMerchantParamenters(merchantParamenters);
             order.setSignatureVersion(signatureVersion);
 
-            String ordername = "SEND_ORDER_" + order.getNumber();
-
-//            FacesContext facesContext = FacesContext.getCurrentInstance();
-//            HttpServletRequest request = (HttpServletRequest) facesContext.getExternalContext().getRequest();
-//            request.getSession().setAttribute(ordername, order);
-            boolean ok = RedSysDB.guardarPedido(order, ordername);
+            String ordername = "ORDER_" + order.getNumber();
+            boolean ok = RedSysLocalDataBase.guardarPedido(order, ordername);
             LOG.info("Se guardo en la BD local {}", ok);
         } catch (Exception e) {
             LOG.error("Clase {} Exception {} ", this.getClass().getSimpleName(), e);

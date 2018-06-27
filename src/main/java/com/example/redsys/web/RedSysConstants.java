@@ -1,6 +1,6 @@
 package com.example.redsys.web;
 
-public class Constants {
+public class RedSysConstants {
 
     // Datos de la pasarela redsys
     public static final String REDSYS_SECRETKEY = "sq7HjrUOBfKmC576ILgskD5srU870gJ7";
@@ -8,9 +8,11 @@ public class Constants {
     public static final String REDSYS_SIGNATURE_VERSION = "HMAC_SHA256_V1";
     public static final String REDSYS_TRANSACTIONTYPE = "0";
     public static final String REDSYS_MERCHANTCODE = "999008881";
-    public static final String REDSYS_TERMINAL = "1";
+    public static final String REDSYS_TERMINAL = "001";
     public static final String REDSYS_CURRENCY = "978";
-
+    public static final String REDSYS_DATABASE_PATH = "/opt/apps/data/";
+    public static final String REDSYS_FILE_EXTENSION = ".ser";
+    
     // Parametros de entrada
     public static final String DS_MERCHANT_AMOUNT = "DS_MERCHANT_AMOUNT";
     public static final String DS_MERCHANT_ORDER = "DS_MERCHANT_ORDER";
@@ -48,5 +50,5 @@ public class Constants {
     public static final String OK = "OK";
     public static final String KO = "KO";
     public static final String VAR_RESULT = "result";
-
+    public static final String VAR_ORDER_NUMBER = "order";
 }

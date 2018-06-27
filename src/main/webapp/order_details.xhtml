@@ -1,0 +1,80 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui"
+                template="/WEB-INF/template.xhtml">
+
+    <ui:define name="content">
+
+        <h:form>
+
+
+
+
+            <p:panel header="Buscar Orden" styleClass="no-border">
+                <h:panelGrid columns="3" columnClasses="label, value">
+                    <p:outputLabel value="Order Number" for="orderNumber" />
+                    <p:inputText id="orderNumber" 
+                                 required="true"
+                                 maxlength="20"
+                                 requiredMessage="Este campo es obligatorio"
+                                 value="#{orderDetailsView.orderNumber}" >
+                        <p:autoUpdate /> 
+                    </p:inputText>
+                    <p:message for="orderNumber" />
+                </h:panelGrid>
+
+                <p:commandButton value="Buscar pedido" id="submitButton"
+                                 actionListener="#{orderDetailsView.obtenerPedido()}"
+                                 process="@this, orderNumber" styleClass="btn-warning"
+                                 widgetVar="confirmarWidgetVar"
+                                 onclick="PF('confirmarWidgetVar').disable()" 
+                                 oncomplete="PF('confirmarWidgetVar').enable();" 
+                                 update="@form"/>
+
+            </p:panel>
+
+            <p:separator></p:separator>
+
+            <p:panel header="Orden" styleClass="no-border" rendered="#{not empty orderDetailsView.order}">
+                <h:panelGrid columns="2" columnClasses="label, value">
+
+                    <p:outputLabel value="order Number" />
+                    <h:outputText value="#{orderDetailsView.orderNumber}" />
+
+                    <p:outputLabel value="Result" />
+                    <h:outputText value="#{orderDetailsView.result}" />
+
+                    <p:outputLabel value="Amount"/>
+                    <h:outputText value="#{orderDetailsView.order.amount}" />
+
+                    <p:outputLabel value="date"/>
+                    <h:outputText value="#{orderDetailsView.order.date}" />
+
+                    <p:outputLabel value="description"/>
+                    <h:outputText value="#{orderDetailsView.order.description}" />
+
+                    <p:outputLabel value="authorisationCode"/>
+                    <h:outputText value="#{orderDetailsView.order.authorisationCode}" />
+                    
+                    <p:outputLabel value="response"/>
+                    <h:outputText value="#{orderDetailsView.order.response}" />
+                    
+                </h:panelGrid>
+
+            </p:panel>
+
+
+            <p:growl globalOnly="true" showDetail="false" life="3000" widgetVar="growlWV">
+                <p:autoUpdate /> 
+            </p:growl>
+
+            <p:messages showDetail="false" globalOnly="true">
+                <p:autoUpdate /> 
+            </p:messages>
+        </h:form>
+
+    </ui:define>
+
+</ui:composition>

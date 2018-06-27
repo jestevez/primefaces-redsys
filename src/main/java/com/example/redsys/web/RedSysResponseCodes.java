@@ -7,7 +7,6 @@ public class RedSysResponseCodes {
     public static final HashMap<Integer, String> RESONSE_CODES = new HashMap<>();
 
     static {
-
         RESONSE_CODES.put(101, "La tarjeta utilizada ya ha pasado su fecha de caducidad y no puede realizar pagos."); // CARD EXPIRED
         RESONSE_CODES.put(102, "La tarjeta está bloqueada por su propietario o por sospechas de uso inadecuado."); // CARD BLOCKED TEMPORARILY OR UNDER SUSPICION OF FRAUD
         RESONSE_CODES.put(104, "La tarjeta no permite este tipo de pagos."); //TRANSACTION NOT PERMITTED

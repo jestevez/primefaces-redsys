@@ -18,8 +18,8 @@ public class RedSysResponse extends HttpServlet {
 
     private final Logger LOG = LoggerFactory.getLogger(this.getClass());
 
-// http://localhost:8080/redsys-example/redsysResponse?result=KO&Ds_SignatureVersion=HMAC_SHA256_V1&Ds_MerchantParameters=eyJEc19EYXRlIjoiMjYlMkYwNiUyRjIwMTgiLCJEc19Ib3VyIjoiMTElM0EwNSIsIkRzX1NlY3VyZVBheW1lbnQiOiIwIiwiRHNfQW1vdW50IjoiMzAwMDAiLCJEc19DdXJyZW5jeSI6Ijk3OCIsIkRzX09yZGVyIjoiNTQ1ODA3LTg0MTEwIiwiRHNfTWVyY2hhbnRDb2RlIjoiOTk5MDA4ODgxIiwiRHNfVGVybWluYWwiOiIwMDEiLCJEc19SZXNwb25zZSI6IjAxODAiLCJEc19UcmFuc2FjdGlvblR5cGUiOiIwIiwiRHNfTWVyY2hhbnREYXRhIjoiIiwiRHNfQXV0aG9yaXNhdGlvbkNvZGUiOiIrKysrKysiLCJEc19DYXJkX051bWJlciI6IjQxMTExMSoqKioqKjExMTEiLCJEc19Db25zdW1lckxhbmd1YWdlIjoiMSIsIkRzX0NhcmRfQ291bnRyeSI6IjAifQ==&Ds_Signature=TjK73kWi1J9TGwa9_fhOB3br8h7fX9617hEGtjU4VDo=
-// http://localhost:8080/redsys-example/redsysResponse?result=ok&Ds_SignatureVersion=HMAC_SHA256_V1&Ds_MerchantParameters=eyJEc19EYXRlIjoiMjUlMkYwNiUyRjIwMTgiLCJEc19Ib3VyIjoiMTYlM0E1MSIsIkRzX1NlY3VyZVBheW1lbnQiOiIxIiwiRHNfQW1vdW50IjoiMzAwMDAwMDAwMCIsIkRzX0N1cnJlbmN5IjoiOTc4IiwiRHNfT3JkZXIiOiIwMDAwMDAwMDAwMDAiLCJEc19NZXJjaGFudENvZGUiOiI5OTkwMDg4ODEiLCJEc19UZXJtaW5hbCI6IjAwMSIsIkRzX1Jlc3BvbnNlIjoiMDAwMCIsIkRzX1RyYW5zYWN0aW9uVHlwZSI6IjAiLCJEc19NZXJjaGFudERhdGEiOiIiLCJEc19BdXRob3Jpc2F0aW9uQ29kZSI6IjExOTE4NyIsIkRzX0NhcmRfTnVtYmVyIjoiNDU0ODgxKioqKioqMDAwNCIsIkRzX0NvbnN1bWVyTGFuZ3VhZ2UiOiIxIiwiRHNfQ2FyZF9Db3VudHJ5IjoiNzI0IiwiRHNfQ2FyZF9CcmFuZCI6IjEifQ==&Ds_Signature=OUnNC-3X0XJizYoMs0bjM_zgbPf72qXxmhMuyhM8ytM=
+// http://localhost:8080/redsys-example/redsysResponse?Ds_SignatureVersion=HMAC_SHA256_V1&Ds_MerchantParameters=eyJEc19EYXRlIjoiMjYlMkYwNiUyRjIwMTgiLCJEc19Ib3VyIjoiMTElM0EwNSIsIkRzX1NlY3VyZVBheW1lbnQiOiIwIiwiRHNfQW1vdW50IjoiMzAwMDAiLCJEc19DdXJyZW5jeSI6Ijk3OCIsIkRzX09yZGVyIjoiNTQ1ODA3LTg0MTEwIiwiRHNfTWVyY2hhbnRDb2RlIjoiOTk5MDA4ODgxIiwiRHNfVGVybWluYWwiOiIwMDEiLCJEc19SZXNwb25zZSI6IjAxODAiLCJEc19UcmFuc2FjdGlvblR5cGUiOiIwIiwiRHNfTWVyY2hhbnREYXRhIjoiIiwiRHNfQXV0aG9yaXNhdGlvbkNvZGUiOiIrKysrKysiLCJEc19DYXJkX051bWJlciI6IjQxMTExMSoqKioqKjExMTEiLCJEc19Db25zdW1lckxhbmd1YWdlIjoiMSIsIkRzX0NhcmRfQ291bnRyeSI6IjAifQ==&Ds_Signature=TjK73kWi1J9TGwa9_fhOB3br8h7fX9617hEGtjU4VDo=
+// http://localhost:8080/redsys-example/redsysResponse?Ds_SignatureVersion=HMAC_SHA256_V1&Ds_MerchantParameters=eyJEc19EYXRlIjoiMjUlMkYwNiUyRjIwMTgiLCJEc19Ib3VyIjoiMTYlM0E1MSIsIkRzX1NlY3VyZVBheW1lbnQiOiIxIiwiRHNfQW1vdW50IjoiMzAwMDAwMDAwMCIsIkRzX0N1cnJlbmN5IjoiOTc4IiwiRHNfT3JkZXIiOiIwMDAwMDAwMDAwMDAiLCJEc19NZXJjaGFudENvZGUiOiI5OTkwMDg4ODEiLCJEc19UZXJtaW5hbCI6IjAwMSIsIkRzX1Jlc3BvbnNlIjoiMDAwMCIsIkRzX1RyYW5zYWN0aW9uVHlwZSI6IjAiLCJEc19NZXJjaGFudERhdGEiOiIiLCJEc19BdXRob3Jpc2F0aW9uQ29kZSI6IjExOTE4NyIsIkRzX0NhcmRfTnVtYmVyIjoiNDU0ODgxKioqKioqMDAwNCIsIkRzX0NvbnN1bWVyTGFuZ3VhZ2UiOiIxIiwiRHNfQ2FyZF9Db3VudHJ5IjoiNzI0IiwiRHNfQ2FyZF9CcmFuZCI6IjEifQ==&Ds_Signature=OUnNC-3X0XJizYoMs0bjM_zgbPf72qXxmhMuyhM8ytM=
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         doGet(request, response);
@@ -37,23 +37,19 @@ public class RedSysResponse extends HttpServlet {
                 LOG.info("key {} value {} ", key, value);
             }
 
-            String result = request.getParameter(Constants.VAR_RESULT);
-            LOG.info("result {}", result);
-
             ApiMacSha256 apiMacSha256 = new ApiMacSha256();
 
             // Buscar los parametros de la respuesta de redsys
-            String version = request.getParameter(Constants.DS_SIGNATUREVERSION);
-            String merchantParams = request.getParameter(Constants.DS_MERCHANTPARAMETERS);
-            String signatureRecibida = request.getParameter(Constants.DS_SIGNATURE);
+            String version = request.getParameter(RedSysConstants.DS_SIGNATUREVERSION);
+            String merchantParams = request.getParameter(RedSysConstants.DS_MERCHANTPARAMETERS);
+            String signatureReceived = request.getParameter(RedSysConstants.DS_SIGNATURE);
 
-                        
-            LOG.info("/redsysResponse?result="+result+"&Ds_SignatureVersion="+version+"&Ds_MerchantParameters="+merchantParams+"&Ds_Signature="+signatureRecibida);
+            LOG.info("/redsysResponse?Ds_SignatureVersion=" + version + "&Ds_MerchantParameters=" + merchantParams + "&Ds_Signature=" + signatureReceived);
 
             String decode = apiMacSha256.decodeMerchantParameters(merchantParams);
             LOG.info("decodeMerchantParameters {}", decode);
 
-            String codigoRespuesta = apiMacSha256.getParameter(Constants.DS_RESPONSE);
+            String codigoRespuesta = apiMacSha256.getParameter(RedSysConstants.DS_RESPONSE);
             LOG.info("codigoRespuesta {}", codigoRespuesta);
             Integer resposeCode = null;
             try {
@@ -61,7 +57,7 @@ public class RedSysResponse extends HttpServlet {
             } catch (NumberFormatException e) {
                 LOG.error("NumberFormatException {}", e);
             }
-            
+
             LOG.info("resposeCode {}", resposeCode);
 
             /* Ejemplo de una respuesta OK
@@ -87,12 +83,12 @@ public class RedSysResponse extends HttpServlet {
             // Usamos JSONObject
             JSONObject object = new JSONObject(decode);
 
-            String Ds_Date = object.getString(Constants.DS_DATE);
-            String Ds_Hour = object.getString(Constants.DS_HOUR);
-            String Ds_Amount = object.getString(Constants.DS_AMOUNT);
-            String Ds_Order = object.getString(Constants.DS_ORDER);
-            String Ds_AuthorisationCode = object.getString(Constants.DS_AUTHORISATIONCODE);
-            
+            String Ds_Date = object.getString(RedSysConstants.DS_DATE);
+            String Ds_Hour = object.getString(RedSysConstants.DS_HOUR);
+            String Ds_Amount = object.getString(RedSysConstants.DS_AMOUNT);
+            String Ds_Order = object.getString(RedSysConstants.DS_ORDER);
+            String Ds_AuthorisationCode = object.getString(RedSysConstants.DS_AUTHORISATIONCODE);
+
 //            String Ds_Currency = object.getString(Constants.DS_CURRENCY);
 //            String Ds_SecurePayment = object.getString(Constants.DS_SECUREPAYMENT);
 //            String Ds_MerchantCode = object.getString(Constants.DS_MERCHANTCODE);
@@ -104,60 +100,54 @@ public class RedSysResponse extends HttpServlet {
 //            String Ds_ConsumerLanguage = object.getString(Constants.DS_CONSUMERLANGUAGE);
 //            String Ds_Card_Country = object.getString(Constants.DS_CARD_COUNTRY);
 //            String Ds_Card_Brand = object.getString(Constants.DS_CARD_BRAND);
-
-            // ----------------------- Serializar la respuesta en db local
-            String responsename = "RECEIVE_ORDER_" + Ds_Order;
-            Order receiveOrder = new Order();
-            receiveOrder.setSignature(signatureRecibida);
-            receiveOrder.setMerchantParamenters(merchantParams);
-            receiveOrder.setSignatureVersion(version);
-            RedSysDB.guardarPedido(receiveOrder, responsename);
-            
-            
-
-            if (!Constants.OK.equalsIgnoreCase(result)) {
-                LOG.info("Es una respuesta de error KO {}", result);
-                String messge = RedSysResponseCodes.getMessageByResponseCode(resposeCode);
-                LOG.info("messge {}", messge);
-                throw new TransactionDeclinedException(resposeCode, messge);
-            }
-
-            LOG.info("Es una transaccion OK");
-
-            // Order order = (Order) request.getSession().getAttribute(ordername);
-            String ordername = "SEND_ORDER_" + Ds_Order;
-
+            String ordername = "ORDER_" + Ds_Order;
+            LOG.info("ordername {} ", ordername);
             // ----------------------- Buscar pedido desde el sistema de archivos
-            Order order = RedSysDB.obtenerPedido(ordername);
+            Order order = RedSysLocalDataBase.obtenerPedido(ordername);
             if (order == null) {
                 LOG.error("Pedido no encontrado {} ", ordername);
+                order = new Order();
             }
 
-            if (!RedSysResponseCodes.isApprovedResponseCode(resposeCode)) {
-                LOG.info("codigo de respuesta de error");
-                String messge = RedSysResponseCodes.getMessageByResponseCode(resposeCode);
-                LOG.info("messge {}", messge);
-                throw new TransactionDeclinedException(resposeCode, messge);
+            // ----------------------- Guuardar los datos de la respuesta
+            order.setSignatureReceived(signatureReceived);
+            order.setMerchantParamentersReceived(merchantParams);
+            order.setSignatureVersionReceived(version);
+            order.setResponse(codigoRespuesta);
+            order.setAuthorisationCode(Ds_AuthorisationCode);
+            order.setDateReceived(Ds_Date);
+            order.setHourReceived(Ds_Hour);
+
+            order.setStatus("pending");
+
+            RedSysLocalDataBase.guardarPedido(order, ordername);
+
+            String messge = RedSysResponseCodes.getMessageByResponseCode(resposeCode);
+            LOG.info("messge {}", messge);
+
+            if (RedSysResponseCodes.isApprovedResponseCode(resposeCode)) {
+                order.setStatus("approved");
+            } else {
+                order.setStatus("declined");
+
             }
 
             LOG.info("codigo de respuesta ok");
-            String signatureCalculada = apiMacSha256.createMerchantSignatureNotif(Constants.REDSYS_SECRETKEY, merchantParams);
+            String signatureCalculada = apiMacSha256.createMerchantSignatureNotif(RedSysConstants.REDSYS_SECRETKEY, merchantParams);
 
-            if (signatureCalculada.equals(signatureRecibida)) {
+            if (signatureCalculada.equals(signatureReceived)) {
                 LOG.info("Firma OK. Realizar tareas en el servidor");
-
                 LOG.info("Ds_AuthorisationCode {}", Ds_AuthorisationCode);
                 LOG.info("Ds_Order {}", Ds_Order);
                 LOG.info("Ds_Amount {}", Ds_Amount);
                 LOG.info("Ds_Date {}", Ds_Date);
                 LOG.info("Ds_Hour {}", Ds_Hour);
-
             } else {
                 LOG.info("Firmar KO. Error firma invalida");
             }
-        } catch (TransactionDeclinedException e) {
-            // Error al realizar el pago
-            LOG.error("TransactionDeclinedException {} - {}",  e.getResponseCode(), e.getResponseMessage());
+//        } catch (TransactionDeclinedException e) {
+//            // Error al realizar el pago
+//            LOG.error("TransactionDeclinedException {} - {}", e.getResponseCode(), e.getResponseMessage());
         } catch (Exception e) {
             LOG.error("Error {}", e);
         } finally {

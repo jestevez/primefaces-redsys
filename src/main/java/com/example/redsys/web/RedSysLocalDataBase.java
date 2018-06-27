@@ -7,16 +7,14 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import org.slf4j.LoggerFactory;
 
-public class RedSysDB {
+public class RedSysLocalDataBase {
 
-    private final static org.slf4j.Logger LOG = LoggerFactory.getLogger(RedSysDB.class);
-    static String path = "C:\\redsysdb\\";
-    static String ext = ".ser";
+    private final static org.slf4j.Logger LOG = LoggerFactory.getLogger(RedSysLocalDataBase.class);
 
     public static Order obtenerPedido(String name) {
         FileInputStream streamIn = null;
         try {
-            streamIn = new FileInputStream(path + name + ext);
+            streamIn = new FileInputStream(RedSysConstants.REDSYS_DATABASE_PATH + name + RedSysConstants.REDSYS_FILE_EXTENSION);
             ObjectInputStream objectinputstream = new ObjectInputStream(streamIn);
             Order order = (Order) objectinputstream.readObject();
             return order;
@@ -38,7 +36,7 @@ public class RedSysDB {
         FileOutputStream fout = null;
         try {
             // Serializar en db local
-            fout = new FileOutputStream(path + name + ext);
+            fout = new FileOutputStream(RedSysConstants.REDSYS_DATABASE_PATH + name + RedSysConstants.REDSYS_FILE_EXTENSION);
             ObjectOutputStream oos = new ObjectOutputStream(fout);
             oos.writeObject(order);
             return true;
